@@ -29,7 +29,7 @@
             android:layout_width="@dimen/image"
             android:layout_height="@dimen/image"
             android:layout_gravity="center"
-            app:srcCompat="@drawable/cow" />
+            app:srcCompat="@drawable/bee" />
 
         <RadioGroup
             android:id="@+id/radAnswer"
@@ -72,7 +72,7 @@
         </RadioGroup>
 
         <Button
-            android:id="@+id/answer"
+            android:id="@+id/btanswer"
             android:onClick="ClickAnswer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

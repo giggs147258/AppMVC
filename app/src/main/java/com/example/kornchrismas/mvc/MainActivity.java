@@ -1,12 +1,15 @@
 package com.example.kornchrismas.mvc;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -18,14 +21,38 @@ public class MainActivity extends AppCompatActivity {
     private MyAlertDialog objMyAlert;
     private Question objQuestion;
     private MyAlertDialog objMyAlertDialog;
-    private int intTime = 1;
-    private MediaPlayer objMediaPlayerButton,objMediaPlayerRadioButton;
+    private MediaPlayer objMediaPlayerButton,objMediaPlayerRadioButton,soundbee,soundbird,
+            soundcat,soundcow,sounddog,soundelephant,soundhorse,soundlion,soundpig,soundsheep;
+    Button answer;
+    int intTime = 1,userChoose,userScore;
+    int userChooseArray[],trueAnswer[];
+    RadioButton rad1,rad2,rad3,rad4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initialWidget();
+        answer = (Button) findViewById(R.id.btanswer);
+        userChooseArray = new int[11];
+        trueAnswer = new int[11];
+        setValueTrueAnswer();
+        soundbee=MediaPlayer.create(this,R.raw.bee);
+        soundbird=MediaPlayer.create(this,R.raw.bird);
+        soundcat=MediaPlayer.create(this,R.raw.cat);
+        soundcow=MediaPlayer.create(this,R.raw.cow);
+        sounddog=MediaPlayer.create(this,R.raw.dog);
+        soundelephant=MediaPlayer.create(this,R.raw.elephant);
+        soundhorse=MediaPlayer.create(this,R.raw.horse);
+        soundlion=MediaPlayer.create(this,R.raw.lion);
+        soundpig=MediaPlayer.create(this,R.raw.pig);
+        soundsheep=MediaPlayer.create(this,R.raw.sheep);
+        soundbee.start();
+        soundbee.setLooping(true);
+        rad1=(RadioButton)findViewById(R.id.rad1);
+        rad2=(RadioButton)findViewById(R.id.rad2);
+        rad3=(RadioButton)findViewById(R.id.rad3);
+        rad4=(RadioButton)findViewById(R.id.rad4);
 
         objQuestion = new Question();
         objQuestion.setOnQuestionChangeListener(new Question.OnQuestionChangeListener() {
@@ -33,20 +60,105 @@ public class MainActivity extends AppCompatActivity {
             public void onQuestionChangeListener(Question question) {
                 switch (question.getIntQuestion()) {
                     case 1:
-                        imvAnimal.setImageResource(R.drawable.cow);
+                        imvAnimal.setImageResource(R.drawable.bee);
+                        rad1.setText(MainActivity.this.getString(R.string.elephant));
+                        rad2.setText(MainActivity.this.getString(R.string.bird));
+                        rad3.setText(MainActivity.this.getString(R.string.bee));
+                        rad4.setText(MainActivity.this.getString(R.string.lion));
+                        radAnswer.clearCheck();
                         break;
                     case 2:
-                        imvAnimal.setImageResource(R.drawable.horse);
+                        imvAnimal.setImageResource(R.drawable.bird);
+                        rad1.setText(MainActivity.this.getString(R.string.cat));
+                        rad2.setText(MainActivity.this.getString(R.string.bird));
+                        rad3.setText(MainActivity.this.getString(R.string.dog));
+                        rad4.setText(MainActivity.this.getString(R.string.lion));
+                        soundbee.stop();
+                        soundbird.start();
+                        radAnswer.clearCheck();
                         break;
                     case 3:
-                        imvAnimal.setImageResource(R.drawable.pig);
+                        imvAnimal.setImageResource(R.drawable.cat);
+                        rad1.setText(MainActivity.this.getString(R.string.dog));
+                        rad2.setText(MainActivity.this.getString(R.string.cow));
+                        rad3.setText(MainActivity.this.getString(R.string.horse));
+                        rad4.setText(MainActivity.this.getString(R.string.cat));
+                        soundbird.stop();
+                        soundcat.start();
+                        radAnswer.clearCheck();
                         break;
                     case 4:
-                        imvAnimal.setImageResource(R.drawable.sheep);
+                        imvAnimal.setImageResource(R.drawable.cow);
+                        rad1.setText(MainActivity.this.getString(R.string.sheep));
+                        rad2.setText(MainActivity.this.getString(R.string.pig));
+                        rad3.setText(MainActivity.this.getString(R.string.cow));
+                        rad4.setText(MainActivity.this.getString(R.string.bee));
+                        soundcat.stop();
+                        soundcow.start();
+                        radAnswer.clearCheck();
                         break;
-                    default:
+                    case 5:
+                        imvAnimal.setImageResource(R.drawable.dog);
+                        rad1.setText(MainActivity.this.getString(R.string.dog));
+                        rad2.setText(MainActivity.this.getString(R.string.elephant));
+                        rad3.setText(MainActivity.this.getString(R.string.horse));
+                        rad4.setText(MainActivity.this.getString(R.string.lion));
+                        soundcow.stop();
+                        sounddog.start();
+                        radAnswer.clearCheck();
+                        break;
+                    case 6:
+                        imvAnimal.setImageResource(R.drawable.elephant);
+                        rad1.setText(MainActivity.this.getString(R.string.sheep));
+                        rad2.setText(MainActivity.this.getString(R.string.lion));
+                        rad3.setText(MainActivity.this.getString(R.string.bird));
+                        rad4.setText(MainActivity.this.getString(R.string.elephant));
+                        sounddog.stop();
+                        soundelephant.start();
+                        radAnswer.clearCheck();
+                        break;
+                    case 7:
+                        imvAnimal.setImageResource(R.drawable.horse);
+                        rad1.setText(MainActivity.this.getString(R.string.dog));
+                        rad2.setText(MainActivity.this.getString(R.string.cow));
+                        rad3.setText(MainActivity.this.getString(R.string.horse));
+                        rad4.setText(MainActivity.this.getString(R.string.cat));
+                        soundelephant.stop();
+                        soundhorse.start();
+                        radAnswer.clearCheck();
+                        break;
+                    case 8:
+                        imvAnimal.setImageResource(R.drawable.lion);
+                        rad1.setText(MainActivity.this.getString(R.string.lion));
+                        rad2.setText(MainActivity.this.getString(R.string.pig));
+                        rad3.setText(MainActivity.this.getString(R.string.sheep));
+                        rad4.setText(MainActivity.this.getString(R.string.bee));
+                        soundhorse.stop();
+                        soundlion.start();
+                        radAnswer.clearCheck();
+                        break;
+                    case 9:
+                        imvAnimal.setImageResource(R.drawable.pig);
+                        rad1.setText(MainActivity.this.getString(R.string.pig));
+                        rad2.setText(MainActivity.this.getString(R.string.horse));
+                        rad3.setText(MainActivity.this.getString(R.string.elephant));
+                        rad4.setText(MainActivity.this.getString(R.string.cat));
+                        soundlion.stop();
+                        soundpig.start();
+                        radAnswer.clearCheck();
+                        break;
+                    case 10:
+                        imvAnimal.setImageResource(R.drawable.sheep);
+                        rad1.setText(MainActivity.this.getString(R.string.lion));
+                        rad2.setText(MainActivity.this.getString(R.string.pig));
+                        rad3.setText(MainActivity.this.getString(R.string.sheep));
+                        rad4.setText(MainActivity.this.getString(R.string.bee));
+                        soundlion.stop();
+                        soundsheep.start();
+                        radAnswer.clearCheck();
                         break;
                 }
+                soundButton();
             }
         });
 
@@ -54,36 +166,42 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int i) {
                 switch (i) {
-                    case R.id.radCow:
-                        strAnswer = "Cow";
+                    case R.id.rad1:
+                        strAnswer = "1";
+                        userChoose = 1;
                         break;
-                    case R.id.radHorse:
-                        strAnswer = "Horse";
+                    case R.id.rad2:
+                        strAnswer = "1";
+                        userChoose = 2;
                         break;
-                    case R.id.radPig:
-                        strAnswer = "Pig";
+                    case R.id.rad3:
+                        strAnswer = "1";
+                        userChoose = 3;
                         break;
-                    case R.id.radSheep:
-                        strAnswer = "Sheep";
+                    case R.id.rad4:
+                        strAnswer = "1";
+                        userChoose = 4;
                         break;
                     default:
                         strAnswer = null;
                         break;
                 }
                 soundRadioButton();
-                //ToaseMassage();
+            }
+        });
+
+        answer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkChooseAnswer();
             }
         });
     }
 
     private void soundRadioButton() {
-        objMediaPlayerRadioButton = MediaPlayer.create(getBaseContext(), R.raw.bee);
+        objMediaPlayerRadioButton = MediaPlayer.create(getBaseContext(), R.raw.soundbt);
         objMediaPlayerRadioButton.start();
     }
-
-    /*private void ToaseMassage() {
-        Toast.makeText(MainActivity.this,"Are You Sure Your Answer is ") + strAnswer, 5000).show();
-    }*/
 
     private void initialWidget() {
         imvAnimal = (ImageView) findViewById(R.id.imvAnimal);
@@ -96,10 +214,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkChooseAnswer() {
         if (strAnswer != null) {
-            Log.d("masterUNG", "strAnswer = " + strAnswer);
+            Log.d("Answer", "IntTime = " + strAnswer);
+            checkScore();
+            intTime++;
+
         }
         else {
-            Log.d("masterUNG", "Please Choose Something");
+            Log.d("Answer", "Please Choose Something");
             objMyAlertDialog = new MyAlertDialog();
             objMyAlertDialog.NoChooseEveryThing(MainActivity.this);
         }
@@ -110,18 +231,40 @@ public class MainActivity extends AppCompatActivity {
         objMediaPlayerButton.start();
     }
 
+    private void setValueTrueAnswer() {
+
+        trueAnswer[1] = 3;
+        trueAnswer[2] = 2;
+        trueAnswer[3] = 4;
+        trueAnswer[4] = 3;
+        trueAnswer[5] = 1;
+        trueAnswer[6] = 4;
+        trueAnswer[7] = 3;
+        trueAnswer[8] = 1;
+        trueAnswer[9] = 1;
+        trueAnswer[10] = 3;
+    }
+
+    private void checkScore(){
+        userChooseArray[intTime] = userChoose;
+        Log.d("ChooseArray","userChooseArray["+String.valueOf(intTime)+"] = "+String.valueOf(userChoose));
+        if (userChooseArray[intTime]==trueAnswer[intTime]){
+            userScore++;
+        }Log.d("Score","userScore  = "+String.valueOf(userScore));
+        sentValueToQuestion();
+    }
+
     private void sentValueToQuestion() {
-        if (intTime == 4) {
-            intTime = 0;
+        if (intTime == 10) {
+            Intent showScore = new Intent(MainActivity.this,Answer.class);
+            showScore.putExtra("Score",userScore);
+            startActivity(showScore);
+            soundsheep.stop();
+            finish();
         }
         intTime++;
 
-        objQuestion.setIntQuestion(intTime);
+        objQuestion.setIntQuestion(intTime+1);
     }
 
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }*/
 }
